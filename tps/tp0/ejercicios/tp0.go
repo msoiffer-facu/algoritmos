@@ -38,7 +38,7 @@ func Comparar(vector1 []int, vector2 []int) int {
 	}
 	if len(vector1) == len(vector2) {
 		return 0
-	}else if len(vector1) < len(vector2) {
+	} else if len(vector1) < len(vector2) {
 		return -1
 	}
 	return 1
