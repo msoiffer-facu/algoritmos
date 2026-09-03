@@ -47,14 +47,9 @@ func Comparar(vector1 []int, vector2 []int) int {
 // Seleccion ordena el arreglo recibido mediante el algoritmo de selección.
 func Seleccion(vector []int) {
 	n := len(vector)
-	for i := range n - 1 {
-		min := i
-		for j := i + 1; j < n; j++ {
-			if vector[j] < vector[min] {
-				min = j
-			}
-		}
-		vector[i], vector[min] = vector[min], vector[i]
+	for i := n - 1; i > 0; i-- {
+		max := Maximo(vector[:i+1])
+		Swap(&vector[max], &vector[i])
 	}
 }
 
