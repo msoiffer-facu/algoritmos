@@ -100,4 +100,3 @@ func TestPilaEnteros(t *testing.T) {
 	require.Equal(t, 1, pila.Desapilar())
 	require.True(t, pila.EstaVacia())
 }
-

@@ -16,4 +16,3 @@ type Pila[T any] interface {
 	// se devuelve ese valor. Si está vacía, entra en pánico con un mensaje "La pila esta vacia".
 	Desapilar() T
 }
-

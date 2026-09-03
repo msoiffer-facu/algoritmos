@@ -1,5 +1,7 @@
 package pila
 
+const CAPACIDAD_I = 5
+
 type pilaDinamica[T any] struct {
 	datos    []T
 	cantidad int
@@ -7,7 +9,7 @@ type pilaDinamica[T any] struct {
 
 func CrearPilaDinamica[T any]() Pila[T] {
 	pila := new(pilaDinamica[T])
-	pila.datos = make([]T, 5)
+	pila.datos = make([]T, CAPACIDAD_I)
 	pila.cantidad = 0
 	return pila
 }
