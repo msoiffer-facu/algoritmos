@@ -1,6 +1,10 @@
 package pila
 
-const CAPACIDAD_I = 5
+const (
+	CAPACIDAD_I        = 5
+	FACTOR_REDIMENSION = 2
+	UMBRAL_REDUCCION   = 4
+)
 
 type pilaDinamica[T any] struct {
 	datos    []T
@@ -27,7 +31,7 @@ func (p *pilaDinamica[T]) VerTope() T {
 
 func (p *pilaDinamica[T]) Apilar(dato T) {
 	if p.cantidad == cap(p.datos) {
-		p.redimensionar(cap(p.datos) * 2)
+		p.redimensionar(cap(p.datos) * FACTOR_REDIMENSION)
 	}
 	p.datos[p.cantidad] = dato
 	p.cantidad++
@@ -39,8 +43,8 @@ func (p *pilaDinamica[T]) Desapilar() T {
 	}
 	p.cantidad--
 	dato := p.datos[p.cantidad]
-	if p.cantidad > 0 && p.cantidad == cap(p.datos)/4 {
-		p.redimensionar(cap(p.datos) / 2)
+	if p.cantidad > 0 && p.cantidad == cap(p.datos)/UMBRAL_REDUCCION {
+		p.redimensionar(cap(p.datos) / FACTOR_REDIMENSION)
 	}
 	return dato
 }

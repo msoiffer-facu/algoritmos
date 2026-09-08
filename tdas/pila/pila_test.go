@@ -54,49 +54,39 @@ func TestVolumen(t *testing.T) {
 	require.True(t, pila.EstaVacia())
 }
 
-func TestPilaStrings(t *testing.T) {
-	pila := TDAPila.CrearPilaDinamica[string]()
-	pila.Apilar("san")
-	pila.Apilar("lorenzo")
-	require.Equal(t, "lorenzo", pila.VerTope())
-	require.Equal(t, "lorenzo", pila.Desapilar())
-	require.Equal(t, "san", pila.VerTope())
-	require.Equal(t, "san", pila.Desapilar())
+func testPilaGenerica[T any](t *testing.T, val1, val2 T) {
+	pila := TDAPila.CrearPilaDinamica[T]()
+	pila.Apilar(val1)
+	pila.Apilar(val2)
+	require.Equal(t, val2, pila.VerTope())
+	require.Equal(t, val2, pila.Desapilar())
+	require.Equal(t, val1, pila.VerTope())
+	require.Equal(t, val1, pila.Desapilar())
 	require.True(t, pila.EstaVacia())
 }
 
-func TestPilaFloats(t *testing.T) {
-	pila := TDAPila.CrearPilaDinamica[float64]()
-	pila.Apilar(1.5)
-	pila.Apilar(2.7)
-	require.Equal(t, 2.7, pila.VerTope())
-	require.Equal(t, 2.7, pila.Desapilar())
-	require.Equal(t, 1.5, pila.VerTope())
-	require.Equal(t, 1.5, pila.Desapilar())
-	require.True(t, pila.EstaVacia())
+func TestPilaTipos(t *testing.T) {
+	testPilaGenerica(t, "san", "lorenzo")
+	testPilaGenerica(t, 1.5, 2.7)
+	testPilaGenerica(t, true, false)
+	testPilaGenerica(t, 1, 2)
 }
 
-func TestPilaBooleans(t *testing.T) {
-	pila := TDAPila.CrearPilaDinamica[bool]()
-	pila.Apilar(true)
-	pila.Apilar(false)
-	require.Equal(t, false, pila.VerTope())
-	require.Equal(t, false, pila.Desapilar())
-	require.Equal(t, true, pila.VerTope())
-	require.Equal(t, true, pila.Desapilar())
-	require.True(t, pila.EstaVacia())
-}
-
-func TestPilaEnteros(t *testing.T) {
+func TestPilaVaciada(t *testing.T) {
 	pila := TDAPila.CrearPilaDinamica[int]()
-	pila.Apilar(1)
-	pila.Apilar(2)
-	pila.Apilar(3)
-	require.Equal(t, 3, pila.VerTope())
-	require.Equal(t, 3, pila.Desapilar())
-	require.Equal(t, 2, pila.VerTope())
-	require.Equal(t, 2, pila.Desapilar())
-	require.Equal(t, 1, pila.VerTope())
-	require.Equal(t, 1, pila.Desapilar())
+	for i := 0; i < 10; i++ {
+		pila.Apilar(i)
+	}
+	for i := 9; i >= 0; i-- {
+		require.Equal(t, i, pila.Desapilar())
+	}
+	require.True(t, pila.EstaVacia())
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.VerTope() })
+	require.PanicsWithValue(t, "La pila esta vacia", func() { pila.Desapilar() })
+
+	pila.Apilar(42)
+	require.False(t, pila.EstaVacia())
+	require.Equal(t, 42, pila.VerTope())
+	require.Equal(t, 42, pila.Desapilar())
 	require.True(t, pila.EstaVacia())
 }
